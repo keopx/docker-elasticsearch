@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM keopx/java
 
 MAINTAINER keopx <keopx@keopx.net>
 
@@ -14,20 +14,7 @@ RUN \
    apt-get -qq update && apt-get -qqy upgrade
 
 RUN \
-   apt-get -yqq install apt-transport-https lsb-release ca-certificates python3-software-properties gnupg2 && \
-   echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee /etc/apt/sources.list.d/webupd8team-java.list && \
-   echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list && \
-   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
-   apt-get -yqq update
-
-RUN \
-   (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) && \
-   apt-get -yqq install --no-install-recommends -y oracle-java8-installer && \
-   rm -rf /var/cache/oracle-jdk8-installer && \
-   echo "networkaddress.cache.ttl=60" >> /usr/lib/jvm/java-8-oracle/jre/lib/security/java.security   
-
-# JAVA ENV.
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+   apt-get -yqq install apt-transport-https ca-certificates python3-software-properties gnupg2
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 # 'me' User in the future.
